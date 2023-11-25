@@ -1,7 +1,49 @@
-import { getStringInfo, toUpperCase } from "../app/Utils"
+import { StringUtils, getStringInfo, toUpperCase } from "../app/Utils"
 
 
 describe('Utils test suite', () => {
+
+  describe('StringUtils tests', () => {
+
+    let sut: StringUtils;
+
+    beforeEach(() => {
+      sut = new StringUtils();
+    });
+
+    it('Should return correctUppercase', () => {
+      const actual = sut.toUpperCase('abc');
+      expect(actual).toBe('ABC');
+    });
+
+    it('Should throw error on invalid argument - function', () => {
+      function expectError() {
+        const actual = sut.toUpperCase('')
+      };
+      expect(expectError).toThrow();
+    });
+
+    it('Should throw error on invalid argument - arrow function', () => {
+      expect(() => {
+        sut.toUpperCase('');
+      }).toThrow();
+    });
+
+    test('Should throw error on invalid argument - try catch block', (done) => {
+      try {
+        sut.toUpperCase('');
+        done('GetStringInfo should trow error for invalid arg!');
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toHaveProperty('message', 'Invalid Argument!');
+        done();
+      }
+    });
+
+    it.todo('test api request...')
+
+  });
+
   it('should return uppercase of a valid string', () => {
     // arrange
     const sut = toUpperCase;
@@ -14,7 +56,7 @@ describe('Utils test suite', () => {
     expect(actual).toBe(expected);
   });
 
-  describe.only('ToUpperCase examples', () => {
+  describe('ToUpperCase examples', () => {
     it.each([
       { input: 'abc', expected: 'ABC' },
       { input: 'My-String', expected: 'MY-STRING' },

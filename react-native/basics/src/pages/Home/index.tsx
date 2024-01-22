@@ -1,24 +1,19 @@
 import React from 'react';
 import { Platform, Text, TextInput, TouchableOpacity, View, StyleSheet, SafeAreaView } from 'react-native';
 import { TaskList } from '../../components/TaskList';
-
-interface Task {
-  id: string;
-  title: string;
-}
+import { useTaskList } from '../../context/TasksContext';
 
 export const Home = (): React.JSX.Element => {
 
   const [newTask, setNewTask] = React.useState('');
-  const [tasks, setTasks] = React.useState<Task[]>([]);
+  const { addTask } = useTaskList();
 
   const handleAddNewTask = () => {
     const data = {
       id: String(new Date().getTime()),
       title: newTask ? newTask : 'Task empty',
     };
-
-    setTasks([...tasks, data]);
+    addTask(data);
   }
 
   return (
@@ -35,7 +30,7 @@ export const Home = (): React.JSX.Element => {
           <Text style={styles.buttonText}>Adicionar</Text>
         </TouchableOpacity>
         <Text style={styles.titleTasks}>Minhas Tarefas</Text>
-        <TaskList tasks={tasks} />
+        <TaskList />
       </View>
     </SafeAreaView>
   )
